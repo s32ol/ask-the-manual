@@ -8,6 +8,11 @@ routes with a transparent retrieval audit trail.
 > ⚠️ **Educational/demo project.** Not for clinical use or medical decision-making.
 > Answers are grounded in a third-party operator manual; see [provenance](#provenance).
 
+![ask-the-manual demo](docs/demo.png)
+
+*Three of the four routes in one session: a grounded **ANSWER** with its retrieval
+audit trail, a gated **REFUSE**, and a keyword-pre-routed **ESCALATE**.*
+
 ## How it works
 
 ```
