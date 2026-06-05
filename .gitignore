@@ -1,0 +1,13 @@
+.env
+venv/
+__pycache__/
+*.faiss
+*.pkl
+
+# Generated / runtime artifacts — regenerable, kept out of version control:
+#   manual.pdf, pages.json -> ./extract_pages.py
+#   faiss_index/ (*.faiss, *.pkl above) -> ./build_index.py
+#   sessions/   -> written by chat.py at runtime
+manual.pdf
+pages.json
+sessions/
