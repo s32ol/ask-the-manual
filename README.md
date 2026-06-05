@@ -145,3 +145,10 @@ even though the binary itself isn't version-controlled.
   47s build to a few seconds if rebuilds become frequent.
 - **Gate thresholds (380 / 460)** are fit from a handful of probe queries; tune on
   more data before any real use.
+
+## License
+
+[MIT](LICENSE) © 2026 Robert Morales — applies to the code in this repository.
+The HAMILTON-C3 operator manual is © Hamilton Medical and is **not** included or
+relicensed here; only its public source URL and a SHA256 are recorded in
+[`manual_manifest.json`](manual_manifest.json) for provenance.
