@@ -53,7 +53,7 @@ ollama pull nomic-embed-text
 ollama pull gemma3:4b
 
 python3 -m venv venv
-./venv/bin/pip install langchain langchain-community faiss-cpu pypdf requests
+./venv/bin/pip install -r requirements.txt
 ```
 
 Build the index (one-time, ~47s; only re-run if the manual changes):

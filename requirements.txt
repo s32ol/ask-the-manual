@@ -1,0 +1,18 @@
+# ask-the-manual — Python dependencies (pinned to tested versions).
+#
+#   python3 -m venv venv
+#   ./venv/bin/pip install -r requirements.txt
+#
+# These are the packages the code imports directly. Their own dependencies
+# (numpy, langchain, etc.) are resolved automatically by pip.
+#
+# NOTE: this project also needs a running Ollama with two models pulled —
+#   ollama pull nomic-embed-text
+#   ollama pull gemma3:4b
+# Ollama is a separate runtime, not a pip package.
+
+langchain-community==0.4.2   # FAISS vectorstore + OllamaEmbeddings
+langchain-core==1.4.0        # Document schema
+faiss-cpu==1.14.2            # vector index
+pypdf==6.12.2               # PDF text extraction
+requests==2.34.2            # Ollama REST API + PDF download
