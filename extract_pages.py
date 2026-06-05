@@ -6,12 +6,15 @@ import json
 import os
 import re
 import io
+import hashlib
+from datetime import datetime
 import requests
 from pypdf import PdfReader
 
 PDF_URL = "https://www.hamilton-medical.com/dam/jcr:5687919f-6926-4268-aa7c-f935b513fc5b/HAMILTON-C3-ops-manual-SW2.0.x-en-624446.03.pdf"
 PDF_CACHE = "manual.pdf"
 PAGES_FILE = "pages.json"
+MANIFEST_FILE = "manual_manifest.json"
 
 # Boilerplate footer/header lines flagged as retrieval noise in DAY1_REPORT.md,
 # e.g. "10 English | 624446/04". Strip only full-line matches so we never touch
@@ -40,7 +43,8 @@ def get_pdf_bytes() -> bytes:
 
 
 if __name__ == "__main__":
-    reader = PdfReader(io.BytesIO(get_pdf_bytes()))
+    pdf_bytes = get_pdf_bytes()
+    reader = PdfReader(io.BytesIO(pdf_bytes))
     pages = []
     empty = 0
     for i, page in enumerate(reader.pages):
@@ -53,8 +57,31 @@ if __name__ == "__main__":
     with open(PAGES_FILE, "w") as f:
         json.dump(pages, f)
 
+    # Provenance manifest (planned Day 1): records WHERE the source came from and
+    # exactly WHICH bytes were processed (SHA256), so the corpus is auditable even
+    # though the PDF binary itself is not version-controlled. This file IS
+    # committed — it is the provenance record that outlives the cached PDF.
+    manifest = {
+        "document": "HAMILTON-C3 Operator's Manual (624446/04, SW 2.0.x)",
+        "source_url": PDF_URL,
+        "filename": PDF_CACHE,
+        "sha256": hashlib.sha256(pdf_bytes).hexdigest(),
+        "size_bytes": len(pdf_bytes),
+        "downloaded_at": datetime.fromtimestamp(
+            os.path.getmtime(PDF_CACHE)).astimezone().isoformat(timespec="seconds"),
+        "pages_total": len(reader.pages),
+        "pages_extracted": len(pages),
+        "intended_use": (
+            "Local, read-only RAG question-answering over the operator manual for "
+            "educational/demo purposes. Not for clinical use or medical decision-making."
+        ),
+    }
+    with open(MANIFEST_FILE, "w") as f:
+        json.dump(manifest, f, indent=2)
+
     total_chars = sum(len(p["text"]) for p in pages)
     print(f"Extracted {len(pages)} non-empty pages ({empty} blank skipped)")
     print(f"Total characters: {total_chars:,}")
     print(f"Avg chars/page: {total_chars // max(len(pages), 1):,}")
     print(f"Saved -> {PAGES_FILE}")
+    print(f"Wrote provenance manifest -> {MANIFEST_FILE}")

@@ -1,0 +1,11 @@
+{
+  "document": "HAMILTON-C3 Operator's Manual (624446/04, SW 2.0.x)",
+  "source_url": "https://www.hamilton-medical.com/dam/jcr:5687919f-6926-4268-aa7c-f935b513fc5b/HAMILTON-C3-ops-manual-SW2.0.x-en-624446.03.pdf",
+  "filename": "manual.pdf",
+  "sha256": "490056494702417a2ffa605011162865ab909e6c95b809e95b737763ac4e721d",
+  "size_bytes": 3516960,
+  "downloaded_at": "2026-06-05T01:58:37-07:00",
+  "pages_total": 372,
+  "pages_extracted": 365,
+  "intended_use": "Local, read-only RAG question-answering over the operator manual for educational/demo purposes. Not for clinical use or medical decision-making."
+}
