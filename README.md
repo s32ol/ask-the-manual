@@ -89,6 +89,23 @@ RETRIEVED (audit trail):
       (* = page cited in SOURCES)
 ```
 
+## Demo questions
+
+`query.py` runs these five questions, which exercise every route:
+
+| Question | Route | Mechanism |
+|----------|-------|-----------|
+| "What does the manual say about replacing the bacterial filter?" | **ANSWER** | grounded generation + citation guard |
+| "Tell me about the settings" | **CLARIFY** | few-shot — vague but *on-manual* |
+| "tell me stuff" | **CLARIFY** | retrieval-score gate — weak/*off-manual* match |
+| "How does this compare to the Philips Trilogy?" | **REFUSE** | retrieval-score gate — nothing close in the manual |
+| "Can I silence the apnea alarm permanently?" | **ESCALATE** | keyword pre-route — fires before the model |
+
+The two CLARIFY cases are deliberate: the gate catches *off-manual* vagueness
+("tell me stuff"), while few-shot catches *on-manual* vagueness ("tell me about
+the settings") — which the gate can't, since that query is as close to the index
+as a genuinely answerable one.
+
 ## Metrics
 
 | | |
